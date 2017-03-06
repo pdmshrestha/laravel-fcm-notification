@@ -12,7 +12,7 @@ class FcmMessage
     const PRIORITY_HIGH = 'high';
 
     /**
-    *
+    *@var array
     */
     private $toGroup;
     /**
@@ -31,6 +31,18 @@ class FcmMessage
      * @var string normal|high
      */
     private $priority = self::PRIORITY_NORMAL;
+
+
+    /**
+     * 
+     * @param array $registration_ids
+     * @return @this->
+     */
+    public function toGroup($reg_ids)
+    {
+        $this->toGroup = $reg_ids;
+        return $this;
+    }
 
     /**
      * @param string $recipient
@@ -95,11 +107,19 @@ class FcmMessage
      */
     public function formatData()
     {
-        return json_encode([
+        $data = array(
             'data'         => $this->data,
             'notification' => $this->notification,
-            'priority'     => $this->priority,
-            'to'           => $this->to
-        ]);
+            'priority'     => $this->priority
+        );
+
+        if($this->toGroup != null){
+            $data['registration_ids'] = $this->toGroup;
+        } 
+        else {
+            $data['to'] = $this->to;
+        }
+
+        return json_encode($data);
     }
 }
