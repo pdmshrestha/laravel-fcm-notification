@@ -12,6 +12,10 @@ class FcmMessage
     const PRIORITY_HIGH = 'high';
 
     /**
+    *
+    */
+    private $toGroup;
+    /**
      * @var string
      */
     private $to;
